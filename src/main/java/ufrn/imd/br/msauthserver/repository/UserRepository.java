@@ -7,11 +7,11 @@ import ufrn.imd.br.msauthserver.model.User;
 import java.util.Optional;
 
 public interface UserRepository extends GenericRepository<User>{
-    boolean existsByLogin(String login);
+    boolean existsByLoginIgnoreCase(String login);
 
-    boolean existsByEmail(String email);
+    boolean existsByEmailIgnoreCase(String email);
 
-    boolean existsByPhoneNumber(String phoneNumber);
+    boolean existsByPhoneNumberIgnoreCase(String phoneNumber);
 
     @Query("select u from User u where u.login = ?1")
     Optional<User> findByLogin(String login);

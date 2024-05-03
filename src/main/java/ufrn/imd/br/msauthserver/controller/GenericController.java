@@ -65,7 +65,7 @@ public abstract class GenericController<E extends BaseEntity, DTO extends Entity
     public ResponseEntity<ApiResponseDTO<EntityDTO>> getById(@PathVariable Long id) {
         return ResponseEntity.ok(new ApiResponseDTO<>(
                 true,
-                "Sucess: Entity has been successfully registered.",
+                "Sucess: Entity has been successfully obtained.",
                 service.findById(id).toResponse(),
                 null));
     }

@@ -10,6 +10,8 @@ import ufrn.imd.br.msauthserver.repository.PatientRepository;
 import ufrn.imd.br.msauthserver.repository.UserRepository;
 import ufrn.imd.br.msauthserver.utils.exception.ResourceNotFoundException;
 
+import java.util.Objects;
+
 
 @Component
 public class UserMapper implements DtoMapper<User, UserDTO>{
@@ -32,17 +34,23 @@ public class UserMapper implements DtoMapper<User, UserDTO>{
 
     @Override
     public UserDTO toDto(User entity){
-        Patient patient = patientRepository.getPatientById(entity.getPatientId())
-                .orElseThrow(() -> new ResourceNotFoundException("Paciente não encontrado com o id: " + entity.getPatientId()));
+        Patient patient = null;
+        Doctor doctor = null;
 
-        Doctor doctor = doctorRepository.getDoctorById(entity.getDoctorId())
-                .orElseThrow(() -> new ResourceNotFoundException("Médico não encontrado com o id: " + entity.getDoctorId()));
+        if(entity.getPatientId() != null){
+            patient = patientRepository.getPatientById(entity.getPatientId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Paciente não encontrado com o id: " + entity.getPatientId()));
+        }
 
+        if(entity.getDoctorId() != null){
+            doctor = doctorRepository.getDoctorById(entity.getDoctorId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Médico não encontrado com o id: " + entity.getDoctorId()));
+        }
 
         return new UserDTO(
                 entity.getId(),
-                patientMapper.toDto(patient),
-                doctorMapper.toDto(doctor),
+                patient != null ? patientMapper.toDto(patient) : null,
+                doctor != null ? doctorMapper.toDto(doctor) : null,
                 entity.getLogin(),
                 entity.getPassword(),
                 entity.getRole(),
@@ -56,8 +64,6 @@ public class UserMapper implements DtoMapper<User, UserDTO>{
     public User toEntity(UserDTO userDTO){
         return User.builder()
                 .id(userDTO.id())
-                .patientId(userDTO.patient().id())
-                .doctorId(userDTO.doctor().id())
                 .login(userDTO.login())
                 .password(userDTO.password())
                 .role(userDTO.role())
