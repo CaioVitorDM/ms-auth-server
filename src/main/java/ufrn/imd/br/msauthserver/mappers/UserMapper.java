@@ -52,7 +52,7 @@ public class UserMapper implements DtoMapper<User, UserDTO>{
                 patient != null ? patientMapper.toDto(patient) : null,
                 doctor != null ? doctorMapper.toDto(doctor) : null,
                 entity.getLogin(),
-                entity.getPassword(),
+                null,
                 entity.getRole(),
                 entity.getEmail(),
                 entity.getPhoneNumber(),

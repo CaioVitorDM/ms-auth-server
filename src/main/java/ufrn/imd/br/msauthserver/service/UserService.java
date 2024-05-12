@@ -15,6 +15,7 @@ import ufrn.imd.br.msauthserver.model.enums.Role;
 import ufrn.imd.br.msauthserver.repository.GenericRepository;
 import ufrn.imd.br.msauthserver.repository.UserRepository;
 import ufrn.imd.br.msauthserver.utils.exception.BusinessException;
+import ufrn.imd.br.msauthserver.utils.exception.ResourceNotFoundException;
 
 @Transactional
 @Service
@@ -78,6 +79,13 @@ public class UserService implements GenericService<User, UserDTO> {
         validateBeforeSave(entity);
 
         return getDtoMapper().toDto(getRepository().save(entity));
+    }
+
+    public UserDTO getUserByDoctorId(Long id){
+        User user = this.userRepository.findByDoctorId(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário médico não encontrado com o id: " + id));
+
+        return this.getDtoMapper().toDto(user);
     }
 
     private void validateLogin(String login){

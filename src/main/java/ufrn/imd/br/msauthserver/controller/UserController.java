@@ -3,10 +3,7 @@ package ufrn.imd.br.msauthserver.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ufrn.imd.br.msauthserver.dto.ApiResponseDTO;
 import ufrn.imd.br.msauthserver.dto.EntityDTO;
 import ufrn.imd.br.msauthserver.dto.UserDTO;
@@ -44,6 +41,18 @@ public class UserController extends GenericController<User, UserDTO, UserService
                         true,
                         "Sucess: Patient User created successfully.",
                         service.createPatientUser(dto).toResponse(),
+                        null
+                )
+        );
+    }
+
+    @GetMapping("/find-medic/{id}")
+    public ResponseEntity<ApiResponseDTO<EntityDTO>> findUserByMedicId(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ApiResponseDTO<>(
+                        true,
+                        "Sucess: Medic retrieved successfully.",
+                        service.getUserByDoctorId(id),
                         null
                 )
         );

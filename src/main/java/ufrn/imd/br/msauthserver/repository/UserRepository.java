@@ -15,4 +15,6 @@ public interface UserRepository extends GenericRepository<User>{
 
     @Query("select u from User u where u.login = ?1")
     Optional<User> findByLogin(String login);
+
+    Optional<User> findByDoctorId(long doctorId);
 }
