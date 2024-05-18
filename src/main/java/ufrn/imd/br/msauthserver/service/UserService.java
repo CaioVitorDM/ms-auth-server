@@ -1,6 +1,8 @@
 package ufrn.imd.br.msauthserver.service;
 
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,7 +11,6 @@ import ufrn.imd.br.msauthserver.dto.PatientDTO;
 import ufrn.imd.br.msauthserver.dto.UserDTO;
 import ufrn.imd.br.msauthserver.mappers.DtoMapper;
 import ufrn.imd.br.msauthserver.mappers.UserMapper;
-import ufrn.imd.br.msauthserver.model.Patient;
 import ufrn.imd.br.msauthserver.model.User;
 import ufrn.imd.br.msauthserver.model.enums.Role;
 import ufrn.imd.br.msauthserver.repository.GenericRepository;
@@ -113,5 +114,9 @@ public class UserService implements GenericService<User, UserDTO> {
                     HttpStatus.BAD_REQUEST
             );
         }
+    }
+
+    public Page<UserDTO> findByFilters(String name, String email, String phoneNumber, String doctorId, Pageable pageable) {
+        return userRepository.searchByFilters(name, email, phoneNumber, doctorId, pageable).map(userMapper::toDto);
     }
 }

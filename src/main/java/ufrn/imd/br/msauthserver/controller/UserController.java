@@ -1,6 +1,9 @@
 package ufrn.imd.br.msauthserver.controller;
 
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,5 +59,21 @@ public class UserController extends GenericController<User, UserDTO, UserService
                         null
                 )
         );
+    }
+
+    @GetMapping("/find-patients")
+    public ResponseEntity<ApiResponseDTO<Page<UserDTO>>> findPatientsFromMedic(
+            @ParameterObject Pageable pageable,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String phoneNumber,
+            @RequestParam(required = false) String doctorId)
+    {
+            return ResponseEntity.ok(new ApiResponseDTO<>(
+                    true,
+                    "Sucess: patients retrieved sucessfully",
+                    service.findByFilters(name, email, phoneNumber, doctorId, pageable),
+                    null
+            ));
     }
 }

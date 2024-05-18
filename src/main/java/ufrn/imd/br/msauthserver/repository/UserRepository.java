@@ -6,7 +6,7 @@ import ufrn.imd.br.msauthserver.model.User;
 
 import java.util.Optional;
 
-public interface UserRepository extends GenericRepository<User>{
+public interface UserRepository extends GenericRepository<User>, CustomUserRepository{
     boolean existsByLoginIgnoreCase(String login);
 
     boolean existsByEmailIgnoreCase(String email);
