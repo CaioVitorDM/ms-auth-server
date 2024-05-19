@@ -9,9 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ufrn.imd.br.msauthserver.dto.ApiResponseDTO;
 import ufrn.imd.br.msauthserver.dto.EntityDTO;
+import ufrn.imd.br.msauthserver.dto.PatientDTO;
 import ufrn.imd.br.msauthserver.dto.UserDTO;
 import ufrn.imd.br.msauthserver.model.User;
 import ufrn.imd.br.msauthserver.service.UserService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -21,6 +24,17 @@ public class UserController extends GenericController<User, UserDTO, UserService
         super(userService);
     }
 
+    @GetMapping("/patients/{doctorId}")
+    public ResponseEntity<ApiResponseDTO<List<UserDTO>>> getUsersWithPatientsByDoctor(@PathVariable Long doctorId) {
+        List<UserDTO> patients = service.findPatientsByDoctorId(doctorId);
+        ApiResponseDTO<List<UserDTO>> response = new ApiResponseDTO<>(
+                true,
+                "Success: Patients retrieved successfully.",
+                patients,
+                null
+        );
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
     @PostMapping("/register")
     public ResponseEntity<ApiResponseDTO<EntityDTO>> createMedic(
             @Valid @RequestBody UserDTO dto
@@ -76,4 +90,5 @@ public class UserController extends GenericController<User, UserDTO, UserService
                     null
             ));
     }
+
 }

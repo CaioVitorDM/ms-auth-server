@@ -18,6 +18,8 @@ import ufrn.imd.br.msauthserver.repository.UserRepository;
 import ufrn.imd.br.msauthserver.utils.exception.BusinessException;
 import ufrn.imd.br.msauthserver.utils.exception.ResourceNotFoundException;
 
+import java.util.List;
+
 @Transactional
 @Service
 public class UserService implements GenericService<User, UserDTO> {
@@ -50,6 +52,10 @@ public class UserService implements GenericService<User, UserDTO> {
         return this.userMapper;
     }
 
+    public List<UserDTO> findPatientsByDoctorId(Long doctorId) {
+        List<User> patients = userRepository.findByPatientDoctorId(doctorId);
+        return getDtoMapper().toDto(patients);
+    }
     @Override
     public void validateBeforeSave(User entity){
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
