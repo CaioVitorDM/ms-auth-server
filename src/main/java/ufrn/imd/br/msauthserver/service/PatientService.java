@@ -10,6 +10,8 @@ import ufrn.imd.br.msauthserver.repository.GenericRepository;
 import ufrn.imd.br.msauthserver.repository.PatientRepository;
 import ufrn.imd.br.msauthserver.utils.exception.BusinessException;
 
+import java.util.List;
+
 @Service
 public class PatientService implements GenericService<Patient, PatientDTO>{
 
@@ -31,6 +33,11 @@ public class PatientService implements GenericService<Patient, PatientDTO>{
     public DtoMapper<Patient, PatientDTO> getDtoMapper() {
         return this.mapper;
     }
+
+//    public List<PatientDTO> findAllByDoctorId(Long doctorId) {
+//        List<Patient> patients = patientRepository.findAllByDoctorId(doctorId);
+//        return getDtoMapper().toDto(patients);
+//    }
 
     public PatientDTO createPatient(PatientDTO dto){
         Patient entity = getDtoMapper().toEntity(dto);
