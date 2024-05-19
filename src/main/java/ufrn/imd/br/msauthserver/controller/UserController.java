@@ -25,7 +25,7 @@ public class UserController extends GenericController<User, UserDTO, UserService
     }
 
     @GetMapping("/patients/{doctorId}")
-    public ResponseEntity<ApiResponseDTO<List<UserDTO>>> getUsersWithPatientsByDoctor(@PathVariable Long doctorId) {
+    public ResponseEntity<ApiResponseDTO<List<UserDTO>>> findPatientsByDoctorId(@PathVariable Long doctorId) {
         List<UserDTO> patients = service.findPatientsByDoctorId(doctorId);
         ApiResponseDTO<List<UserDTO>> response = new ApiResponseDTO<>(
                 true,
