@@ -52,8 +52,8 @@ public class UserService implements GenericService<User, UserDTO> {
         return this.userMapper;
     }
 
-    public List<UserDTO> findPatientsByDoctorId(Long doctorId) {
-        List<User> patients = userRepository.findByPatientDoctorId(doctorId);
+    public List<UserDTO> findPatientsByDoctorId(String doctorId, String login, String name) {
+        List<User> patients = userRepository.searchByFilters(doctorId, login, name);
         return getDtoMapper().toDto(patients);
     }
     @Override
