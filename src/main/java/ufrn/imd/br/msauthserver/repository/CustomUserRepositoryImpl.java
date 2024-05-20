@@ -86,4 +86,42 @@ public class CustomUserRepositoryImpl implements CustomUserRepository{
             System.out.println("QUERY DOCTOR ID: " + doctorId);
         }
     }
+
+    public List<User> searchByFilters(String doctorId, String login, String name) {
+        StringBuilder whereClause = new StringBuilder(WHERE);
+        String orderField = "createdAt";
+        String orderDirection = "DESC";
+
+        if (name != null && !name.trim().isEmpty()) {
+            whereClause.append("AND LOWER(p.name) LIKE LOWER(:name) ");
+        }
+        if (login != null && !login.trim().isEmpty()) {
+            whereClause.append("AND LOWER(u.login) LIKE LOWER(:login) ");
+        }
+
+        if (doctorId != null && !doctorId.trim().isEmpty()) {
+            whereClause.append("AND p.doctorId = :doctorId ");
+        }
+
+        // Construção da consulta final sem paginação
+        String finalQuery = INITIAL + whereClause + " ORDER BY u." + orderField + " " + orderDirection;
+        Query query = entityManager.createQuery(finalQuery, User.class);
+        setQueryParameters(query, name, login, doctorId);
+
+        return (List<User>) query.getResultList();
+    }
+
+    private void setQueryParameters(Query query, String name, String login, String doctorId) {
+        if (name != null && !name.trim().isEmpty()) {
+            query.setParameter("name", "%" + name.toLowerCase() + "%");
+        }
+        if (login != null && !login.trim().isEmpty()) {
+            query.setParameter("login", "%" + login.toLowerCase() + "%");
+        }
+        if (doctorId != null && !doctorId.trim().isEmpty()) {
+            query.setParameter("doctorId", doctorId);
+        }
+    }
+
+
 }

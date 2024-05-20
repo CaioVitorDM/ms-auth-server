@@ -24,9 +24,11 @@ public class UserController extends GenericController<User, UserDTO, UserService
         super(userService);
     }
 
-    @GetMapping("/patients/{doctorId}")
-    public ResponseEntity<ApiResponseDTO<List<UserDTO>>> findPatientsByDoctorId(@PathVariable Long doctorId) {
-        List<UserDTO> patients = service.findPatientsByDoctorId(doctorId);
+    @GetMapping("/patients/doctor")
+    public ResponseEntity<ApiResponseDTO<List<UserDTO>>> findPatientsByDoctorId(@RequestParam(required = false) String doctorId,
+                                                                                @RequestParam(required = false) String login,
+                                                                                @RequestParam(required = false) String name) {
+        List<UserDTO> patients = service.findPatientsByDoctorId(doctorId, login, name);
         ApiResponseDTO<List<UserDTO>> response = new ApiResponseDTO<>(
                 true,
                 "Success: Patients retrieved successfully.",
