@@ -11,5 +11,16 @@ public record PatientDTO(
         String cpf,
         LocalDate birthDate,
         String name
-) {
+) implements EntityDTO{
+
+    @Override
+    public PatientDTO toResponse(){
+        return new PatientDTO(
+                this.id(),
+                this.doctorId(),
+                this.cpf(),
+                this.birthDate(),
+                this.name()
+        );
+    }
 }
