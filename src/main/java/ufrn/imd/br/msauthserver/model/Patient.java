@@ -14,7 +14,7 @@ import java.util.Objects;
 @Where(clause = "active = true")
 public class Patient extends BaseEntity{
 
-    @Column(name = "doctor_id", nullable = false)
+    @Column(nullable = false)
     private Long doctorId;
     @Column(nullable = false, unique = true)
     private String cpf;

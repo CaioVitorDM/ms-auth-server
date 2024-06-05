@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface PatientRepository extends GenericRepository<Patient>{
     boolean existsByCpfIgnoreCase(String cpf);
     Optional<Patient> getPatientById(Long id);
+    Optional<Patient> findByCpfIgnoreCase(String cpf);
 
 }

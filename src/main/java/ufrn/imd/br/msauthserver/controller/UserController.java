@@ -93,4 +93,42 @@ public class UserController extends GenericController<User, UserDTO, UserService
             ));
     }
 
+
+    @PutMapping("/edit-patient")
+    public ResponseEntity<ApiResponseDTO<UserDTO>> updatePatientUser
+            (@Valid @RequestBody UserDTO dto){
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ApiResponseDTO<>(
+                        true,
+                        "Sucesso: Patient user edited.",
+                        service.updatePatientUser(dto),
+                        null
+                )
+        );
+    }
+
+    @PutMapping("/edit-doctor")
+    public ResponseEntity<ApiResponseDTO<UserDTO>> updateMedicUser
+            (@Valid @RequestBody UserDTO dto){
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ApiResponseDTO<>(
+                        true,
+                        "Sucesso: Patient user edited.",
+                        service.updateMedicUser(dto),
+                        null
+                )
+        );
+    }
+
+    @Override
+    public ResponseEntity<ApiResponseDTO<UserDTO>> delete(Long id) {
+        service.deleteUserById(id);
+        return ResponseEntity.ok(new ApiResponseDTO<>(
+                true,
+                "Sucess: Entity has been successfully removed.",
+                null,
+                null));
+    }
 }

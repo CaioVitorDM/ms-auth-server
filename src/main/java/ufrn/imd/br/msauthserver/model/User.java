@@ -18,10 +18,8 @@ import java.util.Objects;
 @Where(clause = "active = true")
 public class User extends BaseEntity implements UserDetails {
 
-    @Column(name = "patient_id")
     private Long patientId;
 
-    @Column(name = "doctor_id")
     private Long doctorId;
 
     @NotNull
@@ -32,7 +30,6 @@ public class User extends BaseEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -41,10 +38,9 @@ public class User extends BaseEntity implements UserDetails {
     private String email;
 
     @NotNull
-    @Column(nullable = false, name = "phone", unique = true)
+    @Column(nullable = false, unique = true)
     private String phoneNumber;
 
-    @Column(name = "img_id")
     private Long imgId;
 
     public static UserBuilder builder(){

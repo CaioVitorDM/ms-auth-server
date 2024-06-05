@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends GenericRepository<User>, CustomUserRepository{
-    boolean existsByLoginIgnoreCase(String login);
+    Optional<User> findByLoginIgnoreCase(String login);
 
-    boolean existsByEmailIgnoreCase(String email);
+    Optional<User> findByEmailIgnoreCase(String email);
 
-    boolean existsByPhoneNumberIgnoreCase(String phoneNumber);
+    Optional<User> findByPhoneNumberIgnoreCase(String phoneNumber);
 
     @Query("select u from User u where u.login = ?1")
     Optional<User> findByLogin(String login);

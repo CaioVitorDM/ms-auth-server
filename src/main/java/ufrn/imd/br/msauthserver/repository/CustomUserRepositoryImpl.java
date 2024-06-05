@@ -83,7 +83,6 @@ public class CustomUserRepositoryImpl implements CustomUserRepository{
         }
         if (doctorId != null && !doctorId.trim().isEmpty()) {
             query.setParameter("doctorId", doctorId);
-            System.out.println("QUERY DOCTOR ID: " + doctorId);
         }
     }
 

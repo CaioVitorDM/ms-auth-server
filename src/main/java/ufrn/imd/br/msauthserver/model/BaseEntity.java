@@ -13,7 +13,7 @@ public class BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
-    @Column(name = "create_at", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     protected ZonedDateTime createdAt;
 
     @Column(name = "updated_at")
