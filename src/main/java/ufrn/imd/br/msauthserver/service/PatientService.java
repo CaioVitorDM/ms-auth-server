@@ -110,4 +110,9 @@ public class PatientService implements GenericService<Patient, PatientDTO>{
         String[] result = new String[emptyNames.size()];
         return emptyNames.toArray(result);
     }
+
+    public boolean existsById(Long patientId) {
+        return patientRepository.existsById(patientId);
+    }
+
 }

@@ -11,4 +11,6 @@ public interface PatientRepository extends GenericRepository<Patient>{
     Optional<Patient> getPatientById(Long id);
     Optional<Patient> findByCpfIgnoreCase(String cpf);
 
+    boolean existsById(Long id);
+
 }
