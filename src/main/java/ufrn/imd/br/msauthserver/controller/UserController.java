@@ -17,6 +17,8 @@ import ufrn.imd.br.msauthserver.service.DoctorService;
 import ufrn.imd.br.msauthserver.service.PatientService;
 import ufrn.imd.br.msauthserver.service.UserService;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -181,5 +183,22 @@ public class UserController extends GenericController<User, UserDTO, UserService
                 null
         ));
     }
+
+    @GetMapping("/patients/recent")
+    public ResponseEntity<ApiResponseDTO<List<UserDTO>>> findRecentPatientsByDoctor(
+            @RequestParam String doctorId,
+            @RequestParam String fromDate,
+            @RequestParam int limit) {
+        List<UserDTO> recentPatients = service.findRecentPatientsByDoctor(doctorId, LocalDate.parse(fromDate), limit);
+        ApiResponseDTO<List<UserDTO>> response = new ApiResponseDTO<>(
+                true,
+                "Success: Recent patients retrieved successfully.",
+                recentPatients,
+                null
+        );
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+
 
 }

@@ -23,4 +23,6 @@ public class PatientController extends GenericController<Patient, PatientDTO, Pa
     }
 
 
+
+
 }
