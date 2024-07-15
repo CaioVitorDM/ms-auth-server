@@ -1,11 +1,12 @@
 package ufrn.imd.br.msauthserver.service;
 
-import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,6 @@ import ufrn.imd.br.msauthserver.dto.PatientDTO;
 import ufrn.imd.br.msauthserver.dto.UserDTO;
 import ufrn.imd.br.msauthserver.mappers.DtoMapper;
 import ufrn.imd.br.msauthserver.mappers.UserMapper;
-import ufrn.imd.br.msauthserver.model.Doctor;
 import ufrn.imd.br.msauthserver.model.User;
 import ufrn.imd.br.msauthserver.model.enums.Role;
 import ufrn.imd.br.msauthserver.repository.GenericRepository;
@@ -23,10 +23,13 @@ import ufrn.imd.br.msauthserver.utils.exception.BusinessException;
 import ufrn.imd.br.msauthserver.utils.exception.ResourceNotFoundException;
 
 import java.beans.PropertyDescriptor;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements GenericService<User, UserDTO> {
@@ -222,5 +225,12 @@ public class UserService implements GenericService<User, UserDTO> {
 
         String[] result = new String[emptyNames.size()];
         return emptyNames.toArray(result);
+    }
+
+    public List<UserDTO> findRecentPatientsByDoctor(String doctorId, LocalDate fromDate, int limit) {
+        return userRepository.findRecentPatientsByDoctor(doctorId, fromDate, PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "createdAt")))
+                .stream()
+                .map(getDtoMapper()::toDto)
+                .collect(Collectors.toList());
     }
 }

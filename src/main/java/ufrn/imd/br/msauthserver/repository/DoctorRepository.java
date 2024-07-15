@@ -11,4 +11,6 @@ public interface DoctorRepository extends GenericRepository<Doctor>{
     Optional<Doctor> getDoctorById(Long id);
 
     Optional<Doctor> findByCrmIgnoreCase(String crm);
+
+    boolean existsById(Long id);
 }
